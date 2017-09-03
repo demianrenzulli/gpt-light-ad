@@ -9,7 +9,7 @@ Web Component wrapper for Glade library code using Polymer.
 <script src='https://securepubads.g.doubleclick.net/static/glade.js' async></script>
 ```
 
-3. Import and use the gpt-ad element inside any Web Component:
+2. Import and use the gpt-ad element inside any Web Component:
 
 ```html
 <link rel="import" href="glade-ad.html">
