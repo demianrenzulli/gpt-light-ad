@@ -22,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
     <script>
         (function() {
+            var ad_slot;
             var gladeReady = !!(window.glade && window.glade.run); // Maybe Glade has already loaded?
             var elementsWaitingForGlade = [];
             if (!gladeReady) {
@@ -64,7 +65,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     'propertiesChanged(adSlotId, dataAdUnitPath, width, height)'
                 ],
 
-                propertiesChanged: function(adSlotId, dataAdUnitPath, width, height) {
+                ready: function() {
+                    if (gladeReady) {
+                        this._load();
+                    } else {
+                        elementsWaitingForGlade.push(this);
+                    }
+                },
+
+                _load: function() {
                     Polymer.RenderStatus.afterNextRender(this, function() {
 
                         var ad_slot = Polymer.dom(this.root).querySelector(".ad_slot_placeholder");
@@ -84,19 +93,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         if (this.dataJson) {
                             ad_slot.setAttribute("data-json", this.dataJson);
                         }
+
+                        glade.run(ad_slot);
                     });
-                },
-
-                ready: function() {
-                    if (gladeReady) {
-                        this._load();
-                    } else {
-                        elementsWaitingForGlade.push(this);
-                    }
-                },
-
-                _load: function() {
-                    glade.run(ad_slot);
                 },
             });
         })();
