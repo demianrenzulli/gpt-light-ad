@@ -17,12 +17,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             height: 100%;
         }
         </style>
-        <div class="ad_slot_placeholder"></div>
-        </div>
+        <div id="ad_slot_placeholder"></div>
     </template>
     <script>
         (function() {
-            var ad_slot;
             var gladeReady = !!(window.glade && window.glade.run); // Maybe Glade has already loaded?
             var elementsWaitingForGlade = [];
             if (!gladeReady) {
@@ -38,32 +36,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             Polymer({
                 is: 'glade-ad',
                 properties: {
-                    adSlotId: {
-                        type: String,
-                    },
-                    dataAdUnitPath: {
-                        type: String
-                    },
-                    width: {
-                        type: String
-                    },
-                    height: {
-                        type: String
-                    },
-                    dataClickUrl: {
-                        type: String
-                    },
-                    dataPageUrl: {
-                        type: String
-                    },
-                    dataJson: {
-                        type: String
-                    }
+                    adSlotId: String,
+                    dataAdUnitPath: String,
+                    width: String,
+                    height: String,
+                    dataClickUrl: String,
+                    dataPageUrl: String,
+                    dataJson: String,
                 },
-
-                observers: [
-                    'propertiesChanged(adSlotId, dataAdUnitPath, width, height)'
-                ],
 
                 ready: function() {
                     if (gladeReady) {
@@ -76,7 +56,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 _load: function() {
                     Polymer.RenderStatus.afterNextRender(this, function() {
 
-                        var ad_slot = Polymer.dom(this.root).querySelector(".ad_slot_placeholder");
+                        var ad_slot = this.$.ad_slot_placeholder;
                         ad_slot.id = this.adSlotId;
                         ad_slot.setAttribute("data-ad-unit-path", this.dataAdUnitPath);
                         ad_slot.setAttribute("width", this.width);
