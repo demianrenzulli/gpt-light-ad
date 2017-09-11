@@ -21,7 +21,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </template>
     <script>
         (function() {
-            var gladeReady = !!(window.glade && window.glade.run); // Maybe Glade has already loaded?
+            // Check if Glade has already loaded
+            var gladeReady = !!(window.glade && window.glade.run); 
             var elementsWaitingForGlade = [];
             if (!gladeReady) {
               window.addEventListener('gladeReady', function listener() {
