@@ -7,7 +7,7 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <dom-module id="glade-ad">
     <template>
         <style>
@@ -17,71 +17,60 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             height: 100%;
         }
         </style>
-        <div class="ad_slot_placeholder"></div>
-        </div>
+        <div id="ad_slot_placeholder"></div>
     </template>
     <script>
-    Polymer({
-        is: 'glade-ad',
-        properties: {
-            adSlotId: {
-                type: String,
-            },
-            dataAdUnitPath: {
-                type: String
-            },
-            width: {
-                type: String
-            },
-            height: {
-                type: String
-            },
-            dataClickUrl: {
-                type: String
-            },
-            dataPageUrl: {
-                type: String
-            },
-            dataJson: {
-                type: String
+        (function() {
+            // Check if Glade has already loaded
+            var gladeReady = !!(window.glade && window.glade.run); 
+            var elementsWaitingForGlade = [];
+            if (!gladeReady) {
+              window.addEventListener('gladeReady', function listener() {
+                  window.removeEventListener('gladeReady', listener);
+                  gladeReady = true;
+                  for (var i = 0; i < elementsWaitingForGlade.length; i++) {
+                      elementsWaitingForGlade[i]._load();
+                  }
+              });
             }
-        },
-
-        observers: [
-            'propertiesChanged(adSlotId, dataAdUnitPath, width, height)'
-        ],
-
-        propertiesChanged: function(adSlotId, dataAdUnitPath, width, height) {
-            Polymer.RenderStatus.afterNextRender(this, function() {
-
-                var ad_slot = Polymer.dom(this.root).querySelector(".ad_slot_placeholder");
-                ad_slot.id = this.adSlotId;
-                ad_slot.setAttribute("data-ad-unit-path", this.dataAdUnitPath);
-                ad_slot.setAttribute("width", this.width);
-                ad_slot.setAttribute("height", this.height);
-
-                if (this.dataClickUrl) {
-                    ad_slot.setAttribute("data-click-url", this.dataClickUrl);
-                }
-
-                if (this.dataPageUrl) {
-                    ad_slot.setAttribute("data-page-url", this.dataPageUrl);
-                }
-
-                if (this.dataJson) {
-                    ad_slot.setAttribute("data-json", this.dataJson);
-                }
-
-                if (!window.glade || !glade.run) {
-                    window.addEventListener("gladeReady", function() {
+            Polymer({
+                is: 'glade-ad',
+                properties: {
+                    adSlotId: String,
+                    dataAdUnitPath: String,
+                    width: String,
+                    height: String,
+                    dataClickUrl: String,
+                    dataPageUrl: String,
+                    dataJson: String,
+                },
+                ready: function() {
+                    if (gladeReady) {
+                        this._load();
+                    } else {
+                        elementsWaitingForGlade.push(this);
+                    }
+                },
+                _load: function() {
+                    Polymer.RenderStatus.afterNextRender(this, function() {
+                        var ad_slot = this.$.ad_slot_placeholder;
+                        ad_slot.id = this.adSlotId;
+                        ad_slot.setAttribute("data-ad-unit-path", this.dataAdUnitPath);
+                        ad_slot.setAttribute("width", this.width);
+                        ad_slot.setAttribute("height", this.height);
+                        if (this.dataClickUrl) {
+                            ad_slot.setAttribute("data-click-url", this.dataClickUrl);
+                        }
+                        if (this.dataPageUrl) {
+                            ad_slot.setAttribute("data-page-url", this.dataPageUrl);
+                        }
+                        if (this.dataJson) {
+                            ad_slot.setAttribute("data-json", this.dataJson);
+                        }
                         glade.run(ad_slot);
                     });
-                } else {
-                    glade.run(ad_slot);
-                }
+                },
             });
-        },
-
-    });
+        })();
     </script>
 </dom-module>
