@@ -1,6 +1,6 @@
 {
-  "name": "google-gpt-ad",
-  "homepage": "https://github.com/demianrenzulli/google-glade-ad",
+  "name": "google-glade-ad",
+  "homepage": "https://github.com/googleads/glade-ad",
   "description": "Web Component wrapper for Glade library code using Polymer.",
   "main": "",
   "authors": [
