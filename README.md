@@ -12,15 +12,15 @@ Web Component wrapper for Glade library code using Polymer.
 2. Import and use the gpt-ad element inside any Web Component:
 
 ```html
-<link rel="import" href="glade-ad.html">
+<link rel="import" href="gpt-light-ad.html">
 ```
 ```html
-<glade-ad ad-slot-id="ad_slot_example" data-ad-unit-path="ad_unit_path" width='XXX' height='YYY'></glade-ad>
+<gpt-light-ad ad-slot-id="ad_slot_example" data-ad-unit-path="ad_unit_path" width='XXX' height='YYY'></gpt-light-ad>
 ```
 
 # Known Limitations
 
-In Single-page Apps (SPA), which reuse components between page visits (including glade-ad), the corresponding ad slots won't be refreshed.
+In Single-page Apps (SPA), which reuse components between page visits (including gpt-light-ad), the corresponding ad slots won't be refreshed.
 
 ## License
 
